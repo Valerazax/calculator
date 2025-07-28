@@ -4,6 +4,7 @@ import './Calculator.css'
 const Calculator = () => {
 
     const [input, setInput] = useState<string>('0')
+    const [expression, setExpression] = useState<string>('')
     const isOperator = (char: string) => /[+\-*/.%]/.test(char)
 
     const handleButtonClick = (value: string) => {
@@ -29,28 +30,30 @@ const Calculator = () => {
         }
     }
 
-    const clear = () => {
+    const handleClear = () => {
         setInput('0')
+        setExpression('')
     }
 
     const handleCalculate = () => {
         try {
-            let result = eval(input).toString();
-            if (result.length > 10) {
-                result = result.slice(0, 10);
-            }
-            setInput(result);
+            const result = eval(input).toString()
+            setExpression(input)
+            setInput(result.length > 10 ? result.slice(0, 10) : result)
         } catch (error) {
-            setInput('Ошибка');
+            setInput('Ошибка')
         }
     }
 
     return (
         <div className={'container'}>
             <div className={'calculator'}>
-                <div className={'display'}>{ input }</div>
+                <div className={'display'}>
+                    <div className={'expression'}>{expression}</div>
+                    <div>{input}</div>
+                </div>
                 <div className={'buttons'}>
-                    <button className={'grey-color'} onClick={clear}>AC</button>
+                    <button className={'grey-color'} onClick={handleClear}>AC</button>
                     <button className={'grey-color'} onClick={plusMinusClick}>+/-</button>
                     <button className={'grey-color'} onClick={() => handleButtonClick('%')}>%</button>
                     <button onClick={() => handleButtonClick('/')} className={'yellow-color'}>/</button>
@@ -87,101 +90,109 @@ export default Calculator
 // import React, { Component } from 'react'
 // import './Calculator.css'
 //
-// type State = {
-//     input: string
-// };
-//
-// class Calculator extends Component<{}, State> {
-//     state: State = {
-//         input: '0',
-//     };
-//
-//     isOperator = (char: string) => /[+\-*/.%]/.test(char)
-//
-//     handleButtonClick = (value: string) => {
-//         const { input } = this.state
-//         const lastChar = input[input.length - 1]
-//
-//         if (this.isOperator(value) && this.isOperator(lastChar)) {
-//             return
-//         }
-//
-//         if (input === '0' && !this.isOperator(value) && value !== '.') {
-//             this.setState({ input: value })
-//         } else {
-//             this.setState({ input: input + value })
-//         }
-//     };
-//
-//     plusMinusClick = () => {
-//         const { input } = this.state
-//
-//         if (Number(input) > 0) {
-//             this.setState({ input: `(-${input})` })
-//         } else if (Number(input) === 0) {
-//             this.setState({ input: '0' })
-//         } else {
-//             const positive = input.replace(/[()]/g, '').slice(1)
-//             this.setState({ input: positive })
-//         }
-//     };
-//
-//     handleClear = () => {
-//         this.setState({ input: '0' })
-//     };
-//
-//     handleCalculate = () => {
-//         const { input } = this.state
-//         try {
-//             let result = eval(input).toString()
-//             if (result.length > 10) {
-//                 result = result.slice(0, 10)
-//             }
-//             this.setState({ input: result })
-//         } catch (error) {
-//             this.setState({ input: 'Ошибка' })
-//         }
-//     };
-//
-//     render() {
-//         const { input } = this.state
-//
-//         return (
-//             <div className="container">
-//                 <div className="calculator">
-//                     <div className="display">{input}</div>
-//                     <div className="buttons">
-//                         <button className="grey-color" onClick={this.handleClear}>AC</button>
-//                         <button className="grey-color" onClick={this.plusMinusClick}>+/-</button>
-//                         <button className="grey-color" onClick={() => this.handleButtonClick('%')}>%</button>
-//                         <button className="yellow-color" onClick={() => this.handleButtonClick('/')}>/</button>
-//
-//                         <button onClick={() => this.handleButtonClick('7')}>7</button>
-//                         <button onClick={() => this.handleButtonClick('8')}>8</button>
-//                         <button onClick={() => this.handleButtonClick('9')}>9</button>
-//                         <button className="yellow-color" onClick={() => this.handleButtonClick('*')}>x</button>
-//
-//                         <button onClick={() => this.handleButtonClick('4')}>4</button>
-//                         <button onClick={() => this.handleButtonClick('5')}>5</button>
-//                         <button onClick={() => this.handleButtonClick('6')}>6</button>
-//                         <button className="yellow-color" onClick={() => this.handleButtonClick('-')}>-</button>
-//
-//                         <button onClick={() => this.handleButtonClick('1')}>1</button>
-//                         <button onClick={() => this.handleButtonClick('2')}>2</button>
-//                         <button onClick={() => this.handleButtonClick('3')}>3</button>
-//                         <button className="yellow-color" onClick={() => this.handleButtonClick('+')}>+</button>
-//
-//                         <button onClick={() => this.handleButtonClick('(')}>(</button>
-//                         <button onClick={() => this.handleButtonClick('0')}>0</button>
-//                         <button onClick={() => this.handleButtonClick('.')}>.</button>
-//                         <button className="yellow-color" onClick={this.handleCalculate}>=</button>
-//                     </div>
-//                 </div>
-//             </div>
-//         );
-//     }
+// interface CalculatorState {
+//   input: string;
+//   expression: string;
 // }
 //
-// export default Calculator
+// class Calculator extends Component<{}, CalculatorState> {
+//   constructor(props: {}) {
+//     super(props);
+//     this.state = {
+//       input: '0',
+//       expression: ''
+//     };
+//   }
+//
+//   isOperator = (char: string) => /[+\-*/.%]/.test(char);
+//
+//   handleButtonClick = (value: string) => {
+//     const { input } = this.state;
+//     const lastChar = input[input.length - 1];
+//
+//     if (this.isOperator(value) && this.isOperator(lastChar)) {
+//       return;
+//     }
+//
+//     if (input === '0' && !this.isOperator(value) && value !== '.') {
+//       this.setState({ input: value });
+//     } else {
+//       this.setState({ input: input + value });
+//     }
+//   };
+//
+//   plusMinusClick = () => {
+//     const { input } = this.state;
+//     const number = Number(input);
+//     if (number > 0) {
+//       this.setState({ input: `(-${input})` });
+//     } else if (number === 0) {
+//       this.setState({ input: '0' });
+//     } else {
+//       const clean = input.replace(/[()]/g, '').slice(1);
+//       this.setState({ input: clean });
+//     }
+//   };
+//
+//   handleClear = () => {
+//     this.setState({ input: '0', expression: '' });
+//   };
+//
+//   handleCalculate = () => {
+//     const { input } = this.state;
+//     try {
+//       const result = eval(input).toString();
+//       this.setState({
+//         expression: input,
+//         input: result.length > 10 ? result.slice(0, 10) : result
+//       });
+//     } catch (e) {
+//       this.setState({ input: 'Ошибка' });
+//     }
+//   };
+//
+//   render() {
+//     const { input, expression } = this.state;
+//
+//     return (
+//       <div className="container">
+//         <div className="calculator">
+//           <div className="display">
+//             <div className="expression">{expression}</div>
+//             <div className="result">{input}</div>
+//           </div>
+//           <div className="buttons">
+//             <button className="grey-color" onClick={this.handleClear}>AC</button>
+//             <button className="grey-color" onClick={this.plusMinusClick}>+/-</button>
+//             <button className="grey-color" onClick={() => this.handleButtonClick('%')}>%</button>
+//             <button className="yellow-color" onClick={() => this.handleButtonClick('/')}>/</button>
+//
+//             <button onClick={() => this.handleButtonClick('7')}>7</button>
+//             <button onClick={() => this.handleButtonClick('8')}>8</button>
+//             <button onClick={() => this.handleButtonClick('9')}>9</button>
+//             <button className="yellow-color" onClick={() => this.handleButtonClick('*')}>x</button>
+//
+//             <button onClick={() => this.handleButtonClick('4')}>4</button>
+//             <button onClick={() => this.handleButtonClick('5')}>5</button>
+//             <button onClick={() => this.handleButtonClick('6')}>6</button>
+//             <button className="yellow-color" onClick={() => this.handleButtonClick('-')}>-</button>
+//
+//             <button onClick={() => this.handleButtonClick('1')}>1</button>
+//             <button onClick={() => this.handleButtonClick('2')}>2</button>
+//             <button onClick={() => this.handleButtonClick('3')}>3</button>
+//             <button className="yellow-color" onClick={() => this.handleButtonClick('+')}>+</button>
+//
+//             <button onClick={() => this.handleButtonClick('(')}>(</button>
+//             <button onClick={() => this.handleButtonClick('0')}>0</button>
+//             <button onClick={() => this.handleButtonClick(')')}>)</button>
+//             <button className="yellow-color" onClick={this.handleCalculate}>=</button>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+//
+// export default Calculator;
 
 
