@@ -1,0 +1,77 @@
+body {
+    background: #222222;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+
+.calculator {
+    max-width: 280px;
+    border-radius: 70px;
+    padding: 0 30px;
+    padding-block: 50px;
+    border: 1px solid #c8c8c8;
+    background-color: black;
+    color: white;
+}
+
+.display {
+    display: flex;
+    justify-content: right;
+    align-items: flex-end;
+    font-size: 50px;
+    padding: 1px;
+    background-color: black;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    /*border: 1px solid #d1d1d1;*/
+    height: 170px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    background-color: black;
+    border: none;
+    cursor: default;
+}
+
+button {
+    font-size: 25px;
+    width: 62px;
+    height: 62px;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    background-color: #2c2c2e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+.grey-color {
+    background-color: #515151;
+}
+
+button:active {
+    background-color: #7e7e7e;
+}
+
+button.yellow-color {
+    background-color: rgb(234, 141, 0);
+    color: white;
+    font-size: 30px;
+    padding-bottom: 4px;
+}
+
+button.yellow-color:active {
+    background-color: #e6b800;
+}
